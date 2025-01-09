@@ -1,13 +1,47 @@
+.list-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.list_elt_infos {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+}
+
+.list_elt_icon {
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .list_elt_icon svg, .list_elt_icon i{
     font-size: var(--custom-list-icon-size, 1em);
     width: var(--custom-list-icon-size, 1em);
     height: var(--custom-list-icon-size, 1em);
 }
 
-.list_elt_icon{
-    display: flex;
+.list_elt_title {
+    margin: 0;
+    grid-row: 1;
+    grid-column: 2;
 }
 
-.list_elt{
-    display: flex;
+.list_elt_content {
+    margin: 0;
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.list_elt:not(:last-child)::after {
+    content: "";
+    display: block;
+    width: 25%;
+    border-top: 1px dashed #000;
+    margin: 10px auto;
 }

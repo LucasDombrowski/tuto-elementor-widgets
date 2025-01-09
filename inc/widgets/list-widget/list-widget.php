@@ -36,6 +36,7 @@ class ListWidget extends \Elementor\Widget_Base
         $this->register_list_controls();
         $this->end_controls_section();
 
+        // Section pour configurer les styles des icones de la liste.
         $this->start_controls_section(
             'section_icon_style',
             [
@@ -46,6 +47,7 @@ class ListWidget extends \Elementor\Widget_Base
         $this->register_icon_style();
         $this->end_controls_section();
 
+        // Section pour configurer les styles des titres de la liste.
         $this->start_controls_section(
             'section_title_style',
             [
@@ -56,6 +58,7 @@ class ListWidget extends \Elementor\Widget_Base
         $this->register_title_style();
         $this->end_controls_section();
 
+        // Section pour configurer les styles du contenu de la liste.
         $this->start_controls_section(
             'section_content_style',
             [
@@ -70,6 +73,7 @@ class ListWidget extends \Elementor\Widget_Base
     // Méthode pour enregistrer les contrôles liés aux différents éléments qui composeront la liste.
     private function register_list_controls()
     {
+        // Contrôle pour configurer la liste des éléments de la liste.
         $this->add_control(
 			'list',
 			[
@@ -116,6 +120,7 @@ class ListWidget extends \Elementor\Widget_Base
 
     private function register_icon_style()
     {
+        // Contrôle pour configurer la couleur des icones de la liste.
         $this->add_control(
 			'icon_color_hover',
 			[
@@ -129,6 +134,7 @@ class ListWidget extends \Elementor\Widget_Base
 			]
 		);
 
+        // Contrôle pour configurer la taille des icones de la liste.
         $this->add_control(
             "icon_size",
             [
@@ -149,6 +155,8 @@ class ListWidget extends \Elementor\Widget_Base
 				],
             ]
         );
+
+        // Contrôle pour configurer l'espacement à côté des icones de la liste.
         $this->add_control(
             "icon_gap",
             [
@@ -171,8 +179,10 @@ class ListWidget extends \Elementor\Widget_Base
         );
     }
 
+    // Méthode pour enregistrer les contrôles liés aux styles des titres de la liste.
     private function register_title_style()
     {
+        // Contrôle pour configurer la taille, la police, l'espacement... du titre de la liste.
         $this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -181,6 +191,7 @@ class ListWidget extends \Elementor\Widget_Base
 			]
 		);
 
+        // Contrôle pour configurer la couleur du titre de la liste.
         $this->add_control(
 			'title_color',
 			[
@@ -193,8 +204,10 @@ class ListWidget extends \Elementor\Widget_Base
 		);
     }
 
+    // Méthode pour enregistrer les contrôles liés aux styles du contenu de la liste.
     private function register_content_style()
     {
+        // Contrôle pour configurer la taille, la police, l'espacement... du contenu de la liste.
         $this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -203,6 +216,7 @@ class ListWidget extends \Elementor\Widget_Base
 			]
 		);
 
+        // Contrôle pour configurer la couleur du contenu de la liste.
         $this->add_control(
 			'content_color',
 			[
@@ -215,11 +229,13 @@ class ListWidget extends \Elementor\Widget_Base
 		);
     }
 
+    // Méthode pour définir les dépendances CSS du widget.
     public function get_style_depends(): array
     {
         return [tew_get_style($this->widget_slug)];
     }
 
+    // Méthode pour rendre le HTML final affiché sur la page.
     protected function render()
     {
         $settings = $this->get_settings_for_display();
@@ -228,17 +244,36 @@ class ListWidget extends \Elementor\Widget_Base
         <div class="list-container">
             <?php foreach ($settings['list'] as $elt) { ?>
                 <div class="list_elt">
-                    <div class="list_elt_icon">
-                        <?php \Elementor\Icons_Manager::render_icon( $elt['list_icon'], [ 'aria-hidden' => 'true' ] ); ?>
-                    </div>
-                    <div class="list_elt_text">
+                    <div class="list_elt_infos">
+                        <div class="list_elt_icon">
+                            <?php \Elementor\Icons_Manager::render_icon( $elt['list_icon'], [ 'aria-hidden' => 'true' ] ); ?>
+                        </div>
                         <h1 class="list_elt_title"><?= $elt["list_title"] ?></h1>
                         <p class="list_elt_content"><?= $elt["list_content"] ?></p>
                     </div>
                 </div>
             <?php } ?>
         </div>
+        <?php
+    }
 
+    // Méthode pour le rendu en live dans Elementor.
+    protected function content_template()
+    {
+        ?>
+        <div class="list-container">
+            <# _.each(settings.list, function(elt) { #>
+                <div class="list_elt">
+                    <div class="list_elt_infos">
+                        <div class="list_elt_icon">
+                            <i class="{{ elt.list_icon.value }}" aria-hidden="true"></i>
+                        </div>
+                        <h1 class="list_elt_title">{{ elt.list_title }}</h1>
+                        <p class="list_elt_content">{{ elt.list_content }}</p>
+                    </div>
+                </div>
+            <# }); #>
+        </div>
         <?php
     }
 }
