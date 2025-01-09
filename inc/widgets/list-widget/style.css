@@ -1,0 +1,13 @@
+.list_elt_icon svg, .list_elt_icon i{
+    font-size: var(--custom-list-icon-size, 1em);
+    width: var(--custom-list-icon-size, 1em);
+    height: var(--custom-list-icon-size, 1em);
+}
+
+.list_elt_icon{
+    display: flex;
+}
+
+.list_elt{
+    display: flex;
+}
