@@ -90,9 +90,6 @@ class HeroBannerWidget extends \Elementor\Widget_Base
                 ],
             ]
         );
-
-        // Fin de la section pour les contrôles de l'arrière-plan.
-        $this->end_controls_section();
     }
 
     // Méthode pour enregistrer les contrôles texte (réutilisée pour le texte principal et le bouton).
