@@ -7,7 +7,7 @@
  */
 
 // Tableau contenant les slugs des widgets à enregistrer, les slugs correspondent aux noms de dossiers et fichiers.
-$tew_widgets_slugs = ["hero-banner-widget"]; 
+$tew_widgets_slugs = ["hero-banner-widget", "recent-post-widget"];
 
 // Chemin vers le répertoire où sont situés les dossiers des widgets.
 $tew_widgets_path = __DIR__."/inc/widgets";
@@ -29,6 +29,7 @@ function tew_register_new_widgets($widgets_manager) {
     // Ces classes doivent être définies dans les fichiers inclus ci-dessus.
     $widgets_classes = [
         new \HeroBannerWidget(),
+        new \RecentPostWidget(),
     ];
 
     // Enregistre chaque widget dans le gestionnaire de widgets d'Elementor.
