@@ -1,69 +1,104 @@
 <?php
 class HeroBannerWidget extends \Elementor\Widget_Base
 {
-    // Propriété pour stocker le slug du widget.
+    // Property to store the widget slug.
     public $widget_slug = "hero-banner-widget";
 
-    // Méthode pour retourner l'identifiant unique du widget.
+    // Method to return the unique identifier of the widget.
     public function get_name(): string
     {
         return "hero_banner";
     }
 
-    // Méthode pour retourner le titre affiché dans Elementor.
+    // Method to return the title displayed in Elementor.
     public function get_title(): string
     {
         return __("Hero Banner", "tuto-elementor-widgets");
     }
 
-    // Méthode pour retourner l'icône du widget dans Elementor.
+    // Method to return the widget icon in Elementor.
     public function get_icon(): string
     {
         return "eicon-featured-image";
     }
 
-    // Méthode pour enregistrer les sections et les contrôles du widget.
+    // Method to register the widget sections and controls.
     protected function register_controls()
     {
-        // Section pour configurer les contrôles liés à l'arrière-plan.
+        /**
+         * Section: Main Content (text and button)
+         */
         $this->start_controls_section(
-            'background',
+            'content_section',
             [
-                'label' => esc_html__('Background', 'tuto-elementor-widgets'),
+                'label' => __('Content', 'tuto-elementor-widgets'),
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
-        $this->register_background_controls();
+
+        $this->register_text_controls('text',"Title"); // Main text controls
+        $this->register_text_controls('button',"Button"); // Button controls
+
+        $this->add_control(
+            'button_link',
+            [
+                'label' => esc_html__('Button Link', 'tuto-elementor-widgets'),
+                'type' => \Elementor\Controls_Manager::URL,
+                'placeholder' => esc_html__('https://example.com', 'tuto-elementor-widgets'),
+            ]
+        );
+
         $this->end_controls_section();
 
-        // Section pour configurer les contrôles liés au texte.
+        /**
+         * Section: Background Style
+         */
         $this->start_controls_section(
-            'text_section',
+            'background_style',
             [
-                'label' => __('Text', 'tuto-elementor-widgets'),
-                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+                'label' => esc_html__('Background Style', 'tuto-elementor-widgets'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
-        $this->register_text_controls('text');
+
+        $this->register_background_controls(); // Background related controls
+
         $this->end_controls_section();
 
-        // Section pour configurer les contrôles liés au bouton.
+        /**
+         * Section: Text Style
+         */
         $this->start_controls_section(
-            'button_section',
+            'text_style',
             [
-                'label' => __('Button', 'tuto-elementor-widgets'),
-                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+                'label' => esc_html__('Text Style', 'tuto-elementor-widgets'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
-        $this->register_text_controls('button');
-        $this->register_button_additional_controls();
+
+        $this->register_style_controls('text'); // Style controls for main text
+
+        $this->end_controls_section();
+
+        /**
+         * Section: Button Style
+         */
+        $this->start_controls_section(
+            'button_style',
+            [
+                'label' => esc_html__('Button Style', 'tuto-elementor-widgets'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->register_style_controls('button'); // Style controls for the button
+
         $this->end_controls_section();
     }
 
-    // Méthode pour enregistrer les contrôles liés à l'arrière-plan.
+    // Method to register background related controls.
     private function register_background_controls()
     {
-        // Contrôle pour sélectionner une image d'arrière-plan.
         $this->add_control(
             'background_image',
             [
@@ -78,7 +113,6 @@ class HeroBannerWidget extends \Elementor\Widget_Base
             ]
         );
 
-        // Contrôle pour configurer les marges intérieures (padding) de l'arrière-plan.
         $this->add_control(
             'dimensions',
             [
@@ -90,25 +124,24 @@ class HeroBannerWidget extends \Elementor\Widget_Base
                 ],
             ]
         );
-
-        // Fin de la section pour les contrôles de l'arrière-plan.
-        $this->end_controls_section();
     }
 
-    // Méthode pour enregistrer les contrôles texte (réutilisée pour le texte principal et le bouton).
-    private function register_text_controls(string $prefix)
+    // Method to register text controls (reused for main text and button).
+    private function register_text_controls(string $prefix, string $label)
     {
-        // Contrôle pour définir le contenu texte.
         $this->add_control(
             $prefix . '_content',
             [
-                'label' => esc_html__('Content', 'tuto-elementor-widgets'),
+                'label' => esc_html__($label.' Content', 'tuto-elementor-widgets'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => esc_html__('Your content here', 'tuto-elementor-widgets'),
             ]
         );
+    }
 
-        // Contrôle pour ajuster la taille de la police.
+    // Method to register style controls (text and button).
+    private function register_style_controls(string $prefix)
+    {
         $this->add_control(
             $prefix . '_font_size',
             [
@@ -127,7 +160,6 @@ class HeroBannerWidget extends \Elementor\Widget_Base
             ]
         );
 
-        // Contrôle pour choisir la police d'écriture.
         $this->add_control(
             $prefix . '_font_family',
             [
@@ -140,7 +172,6 @@ class HeroBannerWidget extends \Elementor\Widget_Base
             ]
         );
 
-        // Contrôle pour définir la couleur du texte.
         $this->add_control(
             $prefix . '_color',
             [
@@ -151,54 +182,40 @@ class HeroBannerWidget extends \Elementor\Widget_Base
                 ],
             ]
         );
+
+        if ($prefix === 'button') {
+            $this->add_control(
+                'button_background_color',
+                [
+                    'label' => esc_html__('Background Color', 'tuto-elementor-widgets'),
+                    'type' => \Elementor\Controls_Manager::COLOR,
+                    'selectors' => [
+                        '{{WRAPPER}} .hero-banner-button' => 'background-color: {{VALUE}};',
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'button_padding',
+                [
+                    'label' => esc_html__('Padding', 'tuto-elementor-widgets'),
+                    'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                    'size_units' => ['px', '%', 'em'],
+                    'selectors' => [
+                        '{{WRAPPER}} .hero-banner-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    ],
+                ]
+            );
+        }
     }
 
-    // Méthode pour enregistrer des contrôles spécifiques au bouton.
-    private function register_button_additional_controls()
-    {
-        // Contrôle pour configurer les marges intérieures (padding) du bouton.
-        $this->add_control(
-            'padding',
-            [
-                'label' => esc_html__('Dimensions', 'tuto-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', '%', 'em'],
-                'selectors' => [
-                    '{{WRAPPER}} .hero-banner-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
-
-        // Contrôle pour définir le lien du bouton.
-        $this->add_control(
-            'button_link',
-            [
-                'label' => esc_html__('Button Link', 'tuto-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::URL,
-                'placeholder' => esc_html__('https://example.com', 'tuto-elementor-widgets'),
-            ]
-        );
-
-        // Contrôle pour configurer la couleur d'arrière-plan du bouton.
-        $this->add_control(
-            'button_background_color',
-            [
-                'label' => esc_html__('Button Background Color', 'tuto-elementor-widgets'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .hero-banner-button' => 'background-color: {{VALUE}};',
-                ],
-            ]
-        );
-    }
-
-    // Méthode pour définir les dépendances CSS du widget.
+    // Method to define the widget's CSS dependencies.
     public function get_style_depends(): array
     {
         return [tew_get_style($this->widget_slug)];
     }
 
-    // Méthode pour rendre le HTML final affiché sur la page.
+    // Method to render the final HTML displayed on the page.
     protected function render()
     {
         $settings = $this->get_settings_for_display();
@@ -221,7 +238,7 @@ class HeroBannerWidget extends \Elementor\Widget_Base
         <?php
     }
 
-    // Méthode pour le rendu en live dans Elementor.
+    // Method for live rendering in Elementor.
     protected function content_template()
     {
         ?>
