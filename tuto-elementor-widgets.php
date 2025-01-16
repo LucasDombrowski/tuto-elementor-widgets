@@ -1,69 +1,69 @@
 <?php 
 /**
  * Plugin Name:     Tuto Elementor Widgets
- * Description:     Ma superbe description !
+ * Description:     My awesome description!
  * Text Domain:     tuto-elementor-widgets
  * Version:         1.0.0
  */
 
-// Tableau contenant les slugs des widgets à enregistrer, les slugs correspondent aux noms de dossiers et fichiers.
+// Array containing the slugs of the widgets to register, the slugs correspond to the names of folders and files.
 $tew_widgets_slugs = ["hero-banner-widget"]; 
 
-// Chemin vers le répertoire où sont situés les dossiers des widgets.
+// Path to the directory where the widget folders are located.
 $tew_widgets_path = __DIR__."/inc/widgets";
 
 /**
- * Fonction pour enregistrer de nouveaux widgets dans Elementor.
+ * Function to register new widgets in Elementor.
  *
- * @param \Elementor\Widgets_Manager $widgets_manager L'instance du gestionnaire de widgets d'Elementor.
+ * @param \Elementor\Widgets_Manager $widgets_manager The instance of the Elementor widgets manager.
  */
 function tew_register_new_widgets($widgets_manager) {
     global $tew_widgets_slugs, $tew_widgets_path;
 
-    // Inclut chaque fichier PHP contenant la définition d'un widget à partir de son slug.
+    // Include each PHP file containing the definition of a widget from its slug.
     foreach($tew_widgets_slugs as $widget_slug){
         require_once($tew_widgets_path."/".$widget_slug."/".$widget_slug.".php");
     }
 
-    // Initialise une liste d'instances de classes de widgets. 
-    // Ces classes doivent être définies dans les fichiers inclus ci-dessus.
+    // Initialize a list of widget class instances.
+    // These classes must be defined in the files included above.
     $widgets_classes = [
         new \HeroBannerWidget(),
     ];
 
-    // Enregistre chaque widget dans le gestionnaire de widgets d'Elementor.
+    // Register each widget in the Elementor widgets manager.
     foreach($widgets_classes as $widget_class){
         $widgets_manager->register($widget_class);
     }
 }
 
 /**
- * Fonction pour enregistrer les styles CSS des widgets.
+ * Function to register the CSS styles of the widgets.
  */
 function tew_register_styles(){
     global $tew_widgets_slugs, $tew_widgets_path;
 
-    // URI vers le dossier contenant les widgets du plugin.
+    // URI to the folder containing the plugin's widgets.
     $widgets_uri = plugin_dir_url(__FILE__)."inc/widgets";
 
-    // Parcourt chaque slug de widget pour enregistrer un style associé.
+    // Loop through each widget slug to register an associated style.
     foreach($tew_widgets_slugs as $tew_widgets_slug){
         wp_register_style(tew_get_style($tew_widgets_slug), $widgets_uri."/".$tew_widgets_slug."/style.css");
     }
 }
 
 /**
- * Fonction pour générer un identifiant de style CSS unique pour chaque widget.
+ * Function to generate a unique CSS style identifier for each widget.
  *
- * @param string $widget_slug Le slug du widget.
- * @return string L'identifiant unique du style CSS.
+ * @param string $widget_slug The widget slug.
+ * @return string The unique CSS style identifier.
  */
 function tew_get_style(string $widget_slug): string {
     return "tew-".$widget_slug."-style";
 }
 
-// Ajoute une action pour enregistrer les widgets lorsque Elementor charge les widgets.
+// Add an action to register the widgets when Elementor loads the widgets.
 add_action( 'elementor/widgets/register', 'tew_register_new_widgets');
 
-// Ajoute une action pour enregistrer les styles CSS lors du chargement des scripts.
+// Add an action to register the CSS styles when scripts are loaded.
 add_action("wp_enqueue_scripts", "tew_register_styles");
