@@ -7,7 +7,7 @@
  */
 
 // Array containing the slugs of the widgets to register, the slugs correspond to the names of folders and files.
-$tew_widgets_slugs = ["hero-banner-widget","list-widget","recent-posts-widget"]; 
+$tew_widgets_slugs = ["hero-banner-widget","list-widget"]; 
 
 // Path to the directory where the widget folders are located.
 $tew_widgets_path = __DIR__."/inc/widgets";
@@ -30,7 +30,6 @@ function tew_register_new_widgets($widgets_manager) {
     $widgets_classes = [
         new \HeroBannerWidget(),
         new \ListWidget(),
-        new \RecentPostsWidget()
     ];
 
     // Register each widget in the Elementor widgets manager.
