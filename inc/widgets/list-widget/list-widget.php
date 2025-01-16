@@ -1,31 +1,31 @@
 <?php
 class ListWidget extends \Elementor\Widget_Base
 {
-    // Propriété pour stocker le slug du widget.
+    // Property to store the widget's slug.
     public $widget_slug = "list-widget";
 
-    // Méthode pour retourner l'identifiant unique du widget.
+    // Method to return the widget's unique identifier.
     public function get_name(): string
     {
         return "list";
     }
 
-    // Méthode pour retourner le titre affiché dans Elementor.
+    // Method to return the title displayed in Elementor.
     public function get_title(): string
     {
         return __("List", "tuto-elementor-widgets");
     }
 
-    // Méthode pour retourner l'icône du widget dans Elementor.
+    // Method to return the widget's icon in Elementor.
     public function get_icon(): string
     {
         return "eicon-post-list";
     }
 
-    // Méthode pour enregistrer les sections et les contrôles du widget.
+    // Method to register the widget's sections and controls.
     protected function register_controls()
     {
-        // Section pour configurer les contrôles liés aux différents éléments qui composeront la liste.
+        // Section to configure controls for the list items.
         $this->start_controls_section(
             'list_section',
             [
@@ -36,7 +36,7 @@ class ListWidget extends \Elementor\Widget_Base
         $this->register_list_controls();
         $this->end_controls_section();
 
-        // Section pour configurer les styles des icones de la liste.
+        // Section to configure the icon styles of the list.
         $this->start_controls_section(
             'section_icon_style',
             [
@@ -47,7 +47,7 @@ class ListWidget extends \Elementor\Widget_Base
         $this->register_icon_style();
         $this->end_controls_section();
 
-        // Section pour configurer les styles des titres de la liste.
+        // Section to configure the title styles of the list.
         $this->start_controls_section(
             'section_title_style',
             [
@@ -58,7 +58,7 @@ class ListWidget extends \Elementor\Widget_Base
         $this->register_title_style();
         $this->end_controls_section();
 
-        // Section pour configurer les styles du contenu de la liste.
+        // Section to configure the content styles of the list.
         $this->start_controls_section(
             'section_content_style',
             [
@@ -70,10 +70,10 @@ class ListWidget extends \Elementor\Widget_Base
         $this->end_controls_section();
     }
 
-    // Méthode pour enregistrer les contrôles liés aux différents éléments qui composeront la liste.
+    // Method to register the controls related to the list items.
     private function register_list_controls()
     {
-        // Contrôle pour configurer la liste des éléments de la liste.
+        // Control to configure the list of list items.
         $this->add_control(
 			'list',
 			[
@@ -120,7 +120,7 @@ class ListWidget extends \Elementor\Widget_Base
 
     private function register_icon_style()
     {
-        // Contrôle pour configurer la couleur des icones de la liste.
+        // Control to configure the color of the list icons.
         $this->add_control(
 			'icon_color_hover',
 			[
@@ -134,7 +134,7 @@ class ListWidget extends \Elementor\Widget_Base
 			]
 		);
 
-        // Contrôle pour configurer la taille des icones de la liste.
+        // Control to configure the size of the list icons.
         $this->add_control(
             "icon_size",
             [
@@ -156,7 +156,7 @@ class ListWidget extends \Elementor\Widget_Base
             ]
         );
 
-        // Contrôle pour configurer l'espacement à côté des icones de la liste.
+        // Control to configure the spacing next to the list icons.
         $this->add_control(
             "icon_gap",
             [
@@ -179,10 +179,10 @@ class ListWidget extends \Elementor\Widget_Base
         );
     }
 
-    // Méthode pour enregistrer les contrôles liés aux styles des titres de la liste.
+    // Method to register the controls related to the title styles of the list.
     private function register_title_style()
     {
-        // Contrôle pour configurer la taille, la police, l'espacement... du titre de la liste.
+        // Control to configure the size, font, spacing... of the list title.
         $this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -191,7 +191,7 @@ class ListWidget extends \Elementor\Widget_Base
 			]
 		);
 
-        // Contrôle pour configurer la couleur du titre de la liste.
+        // Control to configure the color of the list title.
         $this->add_control(
 			'title_color',
 			[
@@ -204,10 +204,10 @@ class ListWidget extends \Elementor\Widget_Base
 		);
     }
 
-    // Méthode pour enregistrer les contrôles liés aux styles du contenu de la liste.
+    // Method to register the controls related to the content styles of the list.
     private function register_content_style()
     {
-        // Contrôle pour configurer la taille, la police, l'espacement... du contenu de la liste.
+        // Control to configure the size, font, spacing... of the list content.
         $this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -216,7 +216,7 @@ class ListWidget extends \Elementor\Widget_Base
 			]
 		);
 
-        // Contrôle pour configurer la couleur du contenu de la liste.
+        // Control to configure the color of the list content.
         $this->add_control(
 			'content_color',
 			[
@@ -229,13 +229,13 @@ class ListWidget extends \Elementor\Widget_Base
 		);
     }
 
-    // Méthode pour définir les dépendances CSS du widget.
+    // Method to define the CSS dependencies for the widget.
     public function get_style_depends(): array
     {
         return [tew_get_style($this->widget_slug)];
     }
 
-    // Méthode pour rendre le HTML final affiché sur la page.
+    // Method to render the final HTML to be displayed on the page.
     protected function render()
     {
         $settings = $this->get_settings_for_display();
@@ -257,7 +257,7 @@ class ListWidget extends \Elementor\Widget_Base
         <?php
     }
 
-    // Méthode pour le rendu en live dans Elementor.
+    // Method for live rendering in Elementor.
     protected function content_template()
     {
         ?>
